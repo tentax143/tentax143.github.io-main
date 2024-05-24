@@ -62,7 +62,7 @@
             justify-content: center;
             align-items: center;
             flex-grow: 1;
-            background-color: #333; /* Match home page background */
+            background-color: #333;
             padding: 20px;
         }
 
@@ -85,14 +85,14 @@
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: #333; /* Updated for better readability */
+            color: #333;
             text-align: center;
         }
 
         .contactus-subhead {
             font-size: 16px;
             margin-bottom: 20px;
-            color: #666; /* Updated for better readability */
+            color: #666;
             text-align: center;
         }
 
@@ -108,7 +108,7 @@
         .input-title {
             font-size: 14px;
             font-weight: bold;
-            color: #333; /* Updated for better readability */
+            color: #333;
         }
 
         .submit-btn {
@@ -159,6 +159,14 @@
                 min-width: 100%;
             }
         }
+
+        .success-message {
+            display: none;
+            color: green;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -174,34 +182,35 @@
             <li><a href="index.html" class="active" style="--navAni:1">Home</a></li>
             <li><a href="about.html" style="--navAni:2">About</a></li>
             <li><a href="skills.html" style="--navAni:3">Skills</a></li>
-            <li><a href="portfolio.html" style="--navAni:4">Portfolio</a></li>
-            <li><a href="contact.html" style="--navAni:5">Contact</a></li>
         </ul>
     </header>
     <div class="contact_us_2">
         <div class="form-box">
             <div class="form-wrapper">
                 <p class="contactus-head">Get in Touch</p>
-                <p class="contactus-subhead">Feel free to reach out to me for any inquiries or just to say hello. i'm always here to help and look forward to connecting with you</p>
-                <div class="responsive-container-block">
-                    <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                        <p class="input-title">First Name</p>
-                        <input class="input" id="first-name" placeholder="Please enter first name...">
+                <p class="contactus-subhead">Feel free to reach out to me for any inquiries or just to say hello. I'm always here to help and look forward to connecting with you.</p>
+                <form id="contact-form" action="https://formspree.io/f/xkndavzp" method="POST">
+                    <div class="responsive-container-block">
+                        <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+                            <p class="input-title">First Name</p>
+                            <input class="input" type="text" name="first-name" placeholder="Please enter first name..." required>
+                        </div>
+                        <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+                            <p class="input-title">Last Name</p>
+                            <input class="input" type="text" name="last-name" placeholder="Please enter last name..." required>
+                        </div>
+                        <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+                            <p class="input-title">Email</p>
+                            <input class="input" type="email" name="email" placeholder="Please enter email..." required>
+                        </div>
+                        <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
+                            <p class="input-title">Message</p>
+                            <textarea class="textinput" name="message" placeholder="Please enter message..." required></textarea>
+                        </div>
                     </div>
-                    <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                        <p class="input-title">Last Name</p>
-                        <input class="input" id="last-name" placeholder="Please enter last name...">
-                    </div>
-                    <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                        <p class="input-title">Email</p>
-                        <input class="input" id="email" placeholder="Please enter email...">
-                    </div>
-                    <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                        <p class="input-title">Message</p>
-                        <textarea id="message" class="textinput" placeholder="Please enter message..."></textarea>
-                    </div>
-                </div>
-                <button class="submit-btn">Send Message</button>
+                    <button class="submit-btn" type="submit">submit</button>
+                </form>
+                <p class="success-message" id="success-message">Thank you! Your message has been sent.</p>
             </div>
             <div class="social-media-links">
                 <a href="https://t.me/+K18qXLDyy5Q5YjZl" target="_blank"><i class="fab fa-telegram-plane"></i></a>
@@ -211,6 +220,27 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            const form = event.target;
+            const data = new FormData(form);
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== XMLHttpRequest.DONE) return;
+                if (xhr.status === 200) {
+                    form.reset();
+                    document.getElementById('success-message').style.display = 'block';
+                } else {
+                    alert('There was a problem with the form submission.');
+                }
+            };
+            xhr.send(data);
+        });
+    </script>
 </body>
 
 </html>
